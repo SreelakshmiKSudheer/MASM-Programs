@@ -4,7 +4,7 @@ DATA SEGMENT
     M1 DB 10,13, "ENTER FIRST NUMBER: $"
     M2 DB 10,13, "ENTER SECOND NUMBER: $"
     M3 DB 10,13, "SUM: $"
-    SUM DB 03
+    PROD DB 04
 DATA ENDS
 
 PRTMSG MACRO MESSAGE
@@ -41,31 +41,61 @@ START: MOV AX,DATA
     GETDCM
     MOV CL,AL
 
-    ADD BL,CL
-    MOV AL,BL
     MOV AH,00H
-    AAA
+    MUL BL
+    AAM
     
-    LEA SI,SUM
-    MOV [SI],AL
-    
-    ADD BH,AH
-    ADD BH,CH
-    MOV AL,BH
-    MOV AH,00H
-    AAA
-
-    INC SI
+    LEA SI,PROD
     MOV [SI],AL
     INC SI
     MOV [SI],AH
 
+    MOV AH,00H
+    MOV AL,BH
+    MUL CL
+    AAM
+    MOV DX,AX
+    ADD DL,[SI]
+
+    MOV AH,00H
+    MOV AL,BL
+    MUL CH
+    AAM 
+    ADD DX,AX
+    MOV AL,DL
+    MOV AH,00H
+    AAM
+    MOV [SI],AL
+    INC SI
+    ADD DH,AH
+    MOV DL,DH
+    MOV DH,00H
+
+    
+    MOV AH,00H
+    MOV AL,BH
+    MUL CH
+    AAM
+    ADD DX,AX
+    MOV AL,DL
+    MOV AH,00H
+    AAM
+    MOV [SI],AL
+    INC SI
+    ADD DH,AH
+    MOV AL,DH
+    MOV [SI],AL
+
     PRTMSG M3
-    PRTDCM
-    DEC SI
-    PRTDCM
-    DEC SI
-    PRTDCM
+     PRTDCM
+     DEC SI
+     PRTDCM
+     DEC SI
+     PRTDCM
+     DEC SI
+     PRTDCM 
+     MOV AH,4CH
+     INT 21H
 
     MOV AH,4CH
     INT 21H
