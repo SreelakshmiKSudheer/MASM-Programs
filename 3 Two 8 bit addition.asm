@@ -23,21 +23,27 @@ START: MOV AX,DATA
     PRTMSG M1
     GETDCM
     MOV BL,AL
+
     PRTMSG M2
     GETDCM
+
     ADD AL,BL
     MOV AH,00H
     AAA
+
     MOV BX,AX
     PRTMSG M3
+
     MOV DL,BH
     ADD DL,30H
     MOV AH,02H
     INT 21H
+
     MOV DL,BL
     ADD DL,30H
     MOV AH,02H
     INT 21H
+    
     MOV AH,4CH
     INT 21
 
